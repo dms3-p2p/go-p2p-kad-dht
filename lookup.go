@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"strings"
 
-	cid "github.com/ipfs/go-cid"
-	logging "github.com/ipfs/go-log"
-	pb "github.com/libp2p/go-libp2p-kad-dht/pb"
-	kb "github.com/libp2p/go-libp2p-kbucket"
-	peer "github.com/libp2p/go-libp2p-peer"
-	notif "github.com/libp2p/go-libp2p-routing/notifications"
+	cid "github.com/dms3-fs/go-cid"
+	logging "github.com/dms3-fs/go-log"
+	pb "github.com/dms3-p2p/go-p2p-kad-dht/pb"
+	kb "github.com/dms3-p2p/go-p2p-kbucket"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	notif "github.com/dms3-p2p/go-p2p-routing/notifications"
 )
 
 func tryFormatLoggableKey(k string) (string, error) {
@@ -53,7 +53,7 @@ func loggableKey(k string) logging.LoggableMap {
 
 // Kademlia 'node lookup' operation. Returns a channel of the K closest peers
 // to the given key
-func (dht *IpfsDHT) GetClosestPeers(ctx context.Context, key string) (<-chan peer.ID, error) {
+func (dht *Dms3FsDHT) GetClosestPeers(ctx context.Context, key string) (<-chan peer.ID, error) {
 	e := log.EventBegin(ctx, "getClosestPeers", loggableKey(key))
 	tablepeers := dht.routingTable.NearestPeers(kb.ConvertKey(key), AlphaValue)
 	if len(tablepeers) == 0 {

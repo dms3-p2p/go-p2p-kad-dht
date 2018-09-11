@@ -9,24 +9,24 @@ import (
 	"context"
 	"sync"
 
-	u "github.com/ipfs/go-ipfs-util"
-	logging "github.com/ipfs/go-log"
-	todoctr "github.com/ipfs/go-todocounter"
+	u "github.com/dms3-fs/go-fs-util"
+	logging "github.com/dms3-fs/go-log"
+	todoctr "github.com/dms3-fs/go-todocounter"
 	process "github.com/jbenet/goprocess"
 	ctxproc "github.com/jbenet/goprocess/context"
-	inet "github.com/libp2p/go-libp2p-net"
-	peer "github.com/libp2p/go-libp2p-peer"
-	pset "github.com/libp2p/go-libp2p-peer/peerset"
-	pstore "github.com/libp2p/go-libp2p-peerstore"
-	queue "github.com/libp2p/go-libp2p-peerstore/queue"
-	routing "github.com/libp2p/go-libp2p-routing"
-	notif "github.com/libp2p/go-libp2p-routing/notifications"
+	inet "github.com/dms3-p2p/go-p2p-net"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	pset "github.com/dms3-p2p/go-p2p-peer/peerset"
+	pstore "github.com/dms3-p2p/go-p2p-peerstore"
+	queue "github.com/dms3-p2p/go-p2p-peerstore/queue"
+	routing "github.com/dms3-p2p/go-p2p-routing"
+	notif "github.com/dms3-p2p/go-p2p-routing/notifications"
 )
 
 var maxQueryConcurrency = AlphaValue
 
 type dhtQuery struct {
-	dht         *IpfsDHT
+	dht         *Dms3FsDHT
 	key         string    // the key we're querying for
 	qfunc       queryFunc // the function to execute per peer
 	concurrency int       // the concurrency parameter
@@ -44,7 +44,7 @@ type dhtQueryResult struct {
 }
 
 // constructs query
-func (dht *IpfsDHT) newQuery(k string, f queryFunc) *dhtQuery {
+func (dht *Dms3FsDHT) newQuery(k string, f queryFunc) *dhtQuery {
 	return &dhtQuery{
 		key:         k,
 		dht:         dht,

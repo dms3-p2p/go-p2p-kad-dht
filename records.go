@@ -5,15 +5,15 @@ import (
 	"fmt"
 	"time"
 
-	ci "github.com/libp2p/go-libp2p-crypto"
-	peer "github.com/libp2p/go-libp2p-peer"
-	routing "github.com/libp2p/go-libp2p-routing"
+	ci "github.com/dms3-p2p/go-p2p-crypto"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	routing "github.com/dms3-p2p/go-p2p-routing"
 )
 
 // MaxRecordAge specifies the maximum time that any node will hold onto a record
 // from the time its received. This does not apply to any other forms of validity that
 // the record may contain.
-// For example, a record may contain an ipns entry with an EOL saying its valid
+// For example, a record may contain an dms3ns entry with an EOL saying its valid
 // until the year 2020 (a great time in the future). For that record to stick around
 // it must be rebroadcasted more frequently than once every 'MaxRecordAge'
 const MaxRecordAge = time.Hour * 36
@@ -23,7 +23,7 @@ type pubkrs struct {
 	err  error
 }
 
-func (dht *IpfsDHT) GetPublicKey(ctx context.Context, p peer.ID) (ci.PubKey, error) {
+func (dht *Dms3FsDHT) GetPublicKey(ctx context.Context, p peer.ID) (ci.PubKey, error) {
 	log.Debugf("getPublicKey for: %s", p)
 
 	// Check locally. Will also try to extract the public key from the peer
@@ -74,7 +74,7 @@ func (dht *IpfsDHT) GetPublicKey(ctx context.Context, p peer.ID) (ci.PubKey, err
 	return nil, err
 }
 
-func (dht *IpfsDHT) getPublicKeyFromDHT(ctx context.Context, p peer.ID) (ci.PubKey, error) {
+func (dht *Dms3FsDHT) getPublicKeyFromDHT(ctx context.Context, p peer.ID) (ci.PubKey, error) {
 	// Only retrieve one value, because the public key is immutable
 	// so there's no need to retrieve multiple versions
 	pkkey := routing.KeyForPublicKey(p)
@@ -95,7 +95,7 @@ func (dht *IpfsDHT) getPublicKeyFromDHT(ctx context.Context, p peer.ID) (ci.PubK
 	return pubk, nil
 }
 
-func (dht *IpfsDHT) getPublicKeyFromNode(ctx context.Context, p peer.ID) (ci.PubKey, error) {
+func (dht *Dms3FsDHT) getPublicKeyFromNode(ctx context.Context, p peer.ID) (ci.PubKey, error) {
 	// check locally, just in case...
 	pk := dht.peerstore.PubKey(p)
 	if pk != nil {

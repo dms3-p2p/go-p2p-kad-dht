@@ -1,4 +1,4 @@
-// Package dht implements a distributed hash table that satisfies the ipfs routing
+// Package dht implements a distributed hash table that satisfies the dms3fs routing
 // interface. This DHT is modeled after Kademlia with S/Kademlia modifications.
 package dht
 
@@ -8,11 +8,11 @@ import (
 	"fmt"
 	"time"
 
-	u "github.com/ipfs/go-ipfs-util"
+	u "github.com/dms3-fs/go-fs-util"
 	goprocess "github.com/jbenet/goprocess"
 	periodicproc "github.com/jbenet/goprocess/periodic"
-	peer "github.com/libp2p/go-libp2p-peer"
-	routing "github.com/libp2p/go-libp2p-routing"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	routing "github.com/dms3-p2p/go-p2p-routing"
 )
 
 // BootstrapConfig specifies parameters used bootstrapping the DHT.
@@ -47,7 +47,7 @@ var DefaultBootstrapConfig = BootstrapConfig{
 // These parameters are configurable.
 //
 // As opposed to BootstrapWithConfig, Bootstrap satisfies the routing interface
-func (dht *IpfsDHT) Bootstrap(ctx context.Context) error {
+func (dht *Dms3FsDHT) Bootstrap(ctx context.Context) error {
 	proc, err := dht.BootstrapWithConfig(DefaultBootstrapConfig)
 	if err != nil {
 		return err
@@ -72,7 +72,7 @@ func (dht *IpfsDHT) Bootstrap(ctx context.Context) error {
 // These parameters are configurable.
 //
 // BootstrapWithConfig returns a process, so the user can stop it.
-func (dht *IpfsDHT) BootstrapWithConfig(cfg BootstrapConfig) (goprocess.Process, error) {
+func (dht *Dms3FsDHT) BootstrapWithConfig(cfg BootstrapConfig) (goprocess.Process, error) {
 	if cfg.Queries <= 0 {
 		return nil, fmt.Errorf("invalid number of queries: %d", cfg.Queries)
 	}
@@ -98,7 +98,7 @@ func (dht *IpfsDHT) BootstrapWithConfig(cfg BootstrapConfig) (goprocess.Process,
 // These parameters are configurable.
 //
 // SignalBootstrap returns a process, so the user can stop it.
-func (dht *IpfsDHT) BootstrapOnSignal(cfg BootstrapConfig, signal <-chan time.Time) (goprocess.Process, error) {
+func (dht *Dms3FsDHT) BootstrapOnSignal(cfg BootstrapConfig, signal <-chan time.Time) (goprocess.Process, error) {
 	if cfg.Queries <= 0 {
 		return nil, fmt.Errorf("invalid number of queries: %d", cfg.Queries)
 	}
@@ -112,7 +112,7 @@ func (dht *IpfsDHT) BootstrapOnSignal(cfg BootstrapConfig, signal <-chan time.Ti
 	return proc, nil
 }
 
-func (dht *IpfsDHT) bootstrapWorker(cfg BootstrapConfig) func(worker goprocess.Process) {
+func (dht *Dms3FsDHT) bootstrapWorker(cfg BootstrapConfig) func(worker goprocess.Process) {
 	return func(worker goprocess.Process) {
 		// it would be useful to be able to send out signals of when we bootstrap, too...
 		// maybe this is a good case for whole module event pub/sub?
@@ -126,7 +126,7 @@ func (dht *IpfsDHT) bootstrapWorker(cfg BootstrapConfig) func(worker goprocess.P
 }
 
 // runBootstrap builds up list of peers by requesting random peer IDs
-func (dht *IpfsDHT) runBootstrap(ctx context.Context, cfg BootstrapConfig) error {
+func (dht *Dms3FsDHT) runBootstrap(ctx context.Context, cfg BootstrapConfig) error {
 	bslog := func(msg string) {
 		log.Debugf("DHT %s dhtRunBootstrap %s -- routing table size: %d", dht.self, msg, dht.routingTable.Size())
 	}

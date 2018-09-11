@@ -12,21 +12,21 @@ import (
 	"testing"
 	"time"
 
-	opts "github.com/libp2p/go-libp2p-kad-dht/opts"
-	pb "github.com/libp2p/go-libp2p-kad-dht/pb"
+	opts "github.com/dms3-p2p/go-p2p-kad-dht/opts"
+	pb "github.com/dms3-p2p/go-p2p-kad-dht/pb"
 
-	cid "github.com/ipfs/go-cid"
-	u "github.com/ipfs/go-ipfs-util"
-	kb "github.com/libp2p/go-libp2p-kbucket"
-	peer "github.com/libp2p/go-libp2p-peer"
-	pstore "github.com/libp2p/go-libp2p-peerstore"
-	record "github.com/libp2p/go-libp2p-record"
-	routing "github.com/libp2p/go-libp2p-routing"
-	swarmt "github.com/libp2p/go-libp2p-swarm/testing"
-	bhost "github.com/libp2p/go-libp2p/p2p/host/basic"
-	ci "github.com/libp2p/go-testutil/ci"
-	travisci "github.com/libp2p/go-testutil/ci/travis"
-	ma "github.com/multiformats/go-multiaddr"
+	cid "github.com/dms3-fs/go-cid"
+	u "github.com/dms3-fs/go-fs-util"
+	kb "github.com/dms3-p2p/go-p2p-kbucket"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	pstore "github.com/dms3-p2p/go-p2p-peerstore"
+	record "github.com/dms3-p2p/go-p2p-record"
+	routing "github.com/dms3-p2p/go-p2p-routing"
+	swarmt "github.com/dms3-p2p/go-p2p-swarm/testing"
+	bhost "github.com/dms3-p2p/go-p2p/p2p/host/basic"
+	ci "github.com/dms3-p2p/go-testutil/ci"
+	travisci "github.com/dms3-p2p/go-testutil/ci/travis"
+	ma "github.com/dms3-mft/go-multiaddr"
 )
 
 var testCaseValues = map[string][]byte{}
@@ -71,7 +71,7 @@ func (testValidator) Validate(_ string, b []byte) error {
 	return nil
 }
 
-func setupDHT(ctx context.Context, t *testing.T, client bool) *IpfsDHT {
+func setupDHT(ctx context.Context, t *testing.T, client bool) *Dms3FsDHT {
 	d, err := New(
 		ctx,
 		bhost.New(swarmt.GenSwarm(t, ctx, swarmt.OptDisableReuseport)),
@@ -85,9 +85,9 @@ func setupDHT(ctx context.Context, t *testing.T, client bool) *IpfsDHT {
 	return d
 }
 
-func setupDHTS(ctx context.Context, n int, t *testing.T) ([]ma.Multiaddr, []peer.ID, []*IpfsDHT) {
+func setupDHTS(ctx context.Context, n int, t *testing.T) ([]ma.Multiaddr, []peer.ID, []*Dms3FsDHT) {
 	addrs := make([]ma.Multiaddr, n)
-	dhts := make([]*IpfsDHT, n)
+	dhts := make([]*Dms3FsDHT, n)
 	peers := make([]peer.ID, n)
 
 	sanityAddrsMap := make(map[string]struct{})
@@ -113,7 +113,7 @@ func setupDHTS(ctx context.Context, n int, t *testing.T) ([]ma.Multiaddr, []peer
 	return addrs, peers, dhts
 }
 
-func connectNoSync(t *testing.T, ctx context.Context, a, b *IpfsDHT) {
+func connectNoSync(t *testing.T, ctx context.Context, a, b *Dms3FsDHT) {
 	t.Helper()
 
 	idB := b.self
@@ -129,7 +129,7 @@ func connectNoSync(t *testing.T, ctx context.Context, a, b *IpfsDHT) {
 	}
 }
 
-func wait(t *testing.T, ctx context.Context, a, b *IpfsDHT) {
+func wait(t *testing.T, ctx context.Context, a, b *Dms3FsDHT) {
 	t.Helper()
 
 	// loop until connection notification has been received.
@@ -143,14 +143,14 @@ func wait(t *testing.T, ctx context.Context, a, b *IpfsDHT) {
 	}
 }
 
-func connect(t *testing.T, ctx context.Context, a, b *IpfsDHT) {
+func connect(t *testing.T, ctx context.Context, a, b *Dms3FsDHT) {
 	t.Helper()
 	connectNoSync(t, ctx, a, b)
 	wait(t, ctx, a, b)
 	wait(t, ctx, b, a)
 }
 
-func bootstrap(t *testing.T, ctx context.Context, dhts []*IpfsDHT) {
+func bootstrap(t *testing.T, ctx context.Context, dhts []*Dms3FsDHT) {
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -177,7 +177,7 @@ func TestValueGetSet(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var dhts [5]*IpfsDHT
+	var dhts [5]*Dms3FsDHT
 
 	for i := range dhts {
 		dhts[i] = setupDHT(ctx, t, false)
@@ -561,7 +561,7 @@ func TestLocalProvides(t *testing.T) {
 }
 
 // if minPeers or avgPeers is 0, dont test for it.
-func waitForWellFormedTables(t *testing.T, dhts []*IpfsDHT, minPeers, avgPeers int, timeout time.Duration) bool {
+func waitForWellFormedTables(t *testing.T, dhts []*Dms3FsDHT, minPeers, avgPeers int, timeout time.Duration) bool {
 	// test "well-formed-ness" (>= minPeers peers in every routing table)
 
 	checkTables := func() bool {
@@ -597,7 +597,7 @@ func waitForWellFormedTables(t *testing.T, dhts []*IpfsDHT, minPeers, avgPeers i
 	}
 }
 
-func printRoutingTables(dhts []*IpfsDHT) {
+func printRoutingTables(dhts []*Dms3FsDHT) {
 	// the routing tables should be full now. let's inspect them.
 	fmt.Printf("checking routing table of %d\n", len(dhts))
 	for _, dht := range dhts {
@@ -794,7 +794,7 @@ func TestProvidesMany(t *testing.T) {
 	defer cancel()
 
 	var wg sync.WaitGroup
-	getProvider := func(dht *IpfsDHT, k *cid.Cid) {
+	getProvider := func(dht *Dms3FsDHT, k *cid.Cid) {
 		defer wg.Done()
 
 		expected := providers[k.KeyString()]

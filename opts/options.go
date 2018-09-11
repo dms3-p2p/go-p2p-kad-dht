@@ -3,14 +3,14 @@ package dhtopts
 import (
 	"fmt"
 
-	ds "github.com/ipfs/go-datastore"
-	dssync "github.com/ipfs/go-datastore/sync"
-	"github.com/libp2p/go-libp2p-protocol"
-	record "github.com/libp2p/go-libp2p-record"
+	ds "github.com/dms3-fs/go-datastore"
+	dssync "github.com/dms3-fs/go-datastore/sync"
+	"github.com/dms3-p2p/go-p2p-protocol"
+	record "github.com/dms3-p2p/go-p2p-record"
 )
 
-var ProtocolDHT protocol.ID = "/ipfs/kad/1.0.0"
-var ProtocolDHTOld protocol.ID = "/ipfs/dht"
+var ProtocolDHT protocol.ID = "/dms3fs/kad/1.0.0"
+var ProtocolDHTOld protocol.ID = "/dms3fs/dht"
 var DefaultProtocols = []protocol.ID{ProtocolDHT, ProtocolDHTOld}
 
 // Options is a structure containing all the options that can be used when constructing a DHT.
@@ -79,8 +79,8 @@ func Validator(v record.Validator) Option {
 // if the DHT is not using a `record.NamespacedValidator` as it's validator (it
 // uses one by default but this can be overridden with the `Validator` option).
 //
-// Example: Given a validator registered as `NamespacedValidator("ipns",
-// myValidator)`, all records with keys starting with `/ipns/` will be validated
+// Example: Given a validator registered as `NamespacedValidator("dms3ns",
+// myValidator)`, all records with keys starting with `/dms3ns/` will be validated
 // with `myValidator`.
 func NamespacedValidator(ns string, v record.Validator) Option {
 	return func(o *Options) error {

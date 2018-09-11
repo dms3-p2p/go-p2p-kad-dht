@@ -8,14 +8,14 @@ import (
 	"time"
 
 	lru "github.com/hashicorp/golang-lru"
-	cid "github.com/ipfs/go-cid"
-	ds "github.com/ipfs/go-datastore"
-	autobatch "github.com/ipfs/go-datastore/autobatch"
-	dsq "github.com/ipfs/go-datastore/query"
-	logging "github.com/ipfs/go-log"
+	cid "github.com/dms3-fs/go-cid"
+	ds "github.com/dms3-fs/go-datastore"
+	autobatch "github.com/dms3-fs/go-datastore/autobatch"
+	dsq "github.com/dms3-fs/go-datastore/query"
+	logging "github.com/dms3-fs/go-log"
 	goprocess "github.com/jbenet/goprocess"
 	goprocessctx "github.com/jbenet/goprocess/context"
-	peer "github.com/libp2p/go-libp2p-peer"
+	peer "github.com/dms3-p2p/go-p2p-peer"
 	base32 "github.com/whyrusleeping/base32"
 )
 

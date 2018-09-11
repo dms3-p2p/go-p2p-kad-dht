@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	proto "github.com/gogo/protobuf/proto"
-	recpb "github.com/libp2p/go-libp2p-record/pb"
+	recpb "github.com/dms3-p2p/go-p2p-record/pb"
 )
 
 func TestCleanRecordSigned(t *testing.T) {

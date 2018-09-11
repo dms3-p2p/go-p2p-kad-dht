@@ -1,16 +1,16 @@
 package dht
 
 import (
-	inet "github.com/libp2p/go-libp2p-net"
-	ma "github.com/multiformats/go-multiaddr"
-	mstream "github.com/multiformats/go-multistream"
+	inet "github.com/dms3-p2p/go-p2p-net"
+	ma "github.com/dms3-mft/go-multiaddr"
+	mstream "github.com/dms3-mft/go-multistream"
 )
 
-// netNotifiee defines methods to be used with the IpfsDHT
-type netNotifiee IpfsDHT
+// netNotifiee defines methods to be used with the Dms3FsDHT
+type netNotifiee Dms3FsDHT
 
-func (nn *netNotifiee) DHT() *IpfsDHT {
-	return (*IpfsDHT)(nn)
+func (nn *netNotifiee) DHT() *Dms3FsDHT {
+	return (*Dms3FsDHT)(nn)
 }
 
 func (nn *netNotifiee) Connected(n inet.Network, v inet.Conn) {

@@ -8,13 +8,13 @@ import (
 	"testing"
 	"time"
 
-	cid "github.com/ipfs/go-cid"
-	ds "github.com/ipfs/go-datastore"
-	u "github.com/ipfs/go-ipfs-util"
-	peer "github.com/libp2p/go-libp2p-peer"
+	cid "github.com/dms3-fs/go-cid"
+	ds "github.com/dms3-fs/go-datastore"
+	u "github.com/dms3-fs/go-fs-util"
+	peer "github.com/dms3-p2p/go-p2p-peer"
 	//
 	// used by TestLargeProvidersSet: do not remove
-	// lds "github.com/ipfs/go-ds-leveldb"
+	// lds "github.com/dms3-fs/go-ds-leveldb"
 )
 
 func TestProviderManager(t *testing.T) {

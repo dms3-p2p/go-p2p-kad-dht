@@ -1,12 +1,12 @@
 package dht_pb
 
 import (
-	logging "github.com/ipfs/go-log"
-	inet "github.com/libp2p/go-libp2p-net"
-	peer "github.com/libp2p/go-libp2p-peer"
-	pstore "github.com/libp2p/go-libp2p-peerstore"
+	logging "github.com/dms3-fs/go-log"
+	inet "github.com/dms3-p2p/go-p2p-net"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	pstore "github.com/dms3-p2p/go-p2p-peerstore"
 	b58 "github.com/mr-tron/base58/base58"
-	ma "github.com/multiformats/go-multiaddr"
+	ma "github.com/dms3-mft/go-multiaddr"
 )
 
 var log = logging.Logger("dht.pb")

@@ -7,13 +7,13 @@ import (
 	"time"
 
 	ggio "github.com/gogo/protobuf/io"
-	u "github.com/ipfs/go-ipfs-util"
-	pb "github.com/libp2p/go-libp2p-kad-dht/pb"
-	inet "github.com/libp2p/go-libp2p-net"
-	pstore "github.com/libp2p/go-libp2p-peerstore"
-	record "github.com/libp2p/go-libp2p-record"
-	routing "github.com/libp2p/go-libp2p-routing"
-	mocknet "github.com/libp2p/go-libp2p/p2p/net/mock"
+	u "github.com/dms3-fs/go-fs-util"
+	pb "github.com/dms3-p2p/go-p2p-kad-dht/pb"
+	inet "github.com/dms3-p2p/go-p2p-net"
+	pstore "github.com/dms3-p2p/go-p2p-peerstore"
+	record "github.com/dms3-p2p/go-p2p-record"
+	routing "github.com/dms3-p2p/go-p2p-routing"
+	mocknet "github.com/dms3-p2p/go-p2p/p2p/net/mock"
 )
 
 func TestGetFailures(t *testing.T) {

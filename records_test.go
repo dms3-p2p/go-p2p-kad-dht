@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	u "github.com/ipfs/go-ipfs-util"
-	ci "github.com/libp2p/go-libp2p-crypto"
-	peer "github.com/libp2p/go-libp2p-peer"
-	record "github.com/libp2p/go-libp2p-record"
-	routing "github.com/libp2p/go-libp2p-routing"
+	u "github.com/dms3-fs/go-fs-util"
+	ci "github.com/dms3-p2p/go-p2p-crypto"
+	peer "github.com/dms3-p2p/go-p2p-peer"
+	record "github.com/dms3-p2p/go-p2p-record"
+	routing "github.com/dms3-p2p/go-p2p-routing"
 )
 
 // Check that GetPublicKey() correctly extracts a public key
